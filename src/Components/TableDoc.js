@@ -4,6 +4,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import ModalDoc from './ModalDoc'
 import Cross from '../assets/Pharmacy_Green_Cross.svg.png'
 import axios from 'axios';
 
@@ -40,7 +41,7 @@ class DocList extends Component {
                 this.setState({
                     contacts: filteredCont
                 })
-                console.log(this.state.doctors)
+                console.log(this.state.contacts)
             })
             .catch(error=>{
                 console.log(error)
@@ -73,7 +74,16 @@ class DocList extends Component {
                                 <TableCell>{doctor.resource.name[0].prefix || doctor.resource.name[0].given}</TableCell>
                                 <TableCell>{doctor.resource.name[0].given  || doctor.resource.name[1].given }</TableCell>
                                 <TableCell>{doctor.resource.name[0].family || doctor.resource.name[0]._family.extension[0].valueString}</TableCell>
-
+                                <TableCell>
+                                    
+                                    <ModalDoc 
+                                        docs={doctor.resource.telecom}
+                                        url={doctor.fullUrl}
+                                        type={doctor.resource.name[0].prefix}
+                                        name={doctor.resource.name[0].given || doctor.resource.name[1].given}
+                                        family={doctor.resource.name[0].family || doctor.resource.name[0]._family.extension[0].valueString}
+                                    />
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

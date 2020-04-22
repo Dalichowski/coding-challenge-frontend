@@ -1,102 +1,68 @@
-# Leah Front-End Coding Challenge
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Welcome to Leah Front-End coding challenge!
+## Available Scripts
 
-Your challenge will be to develop a microsite allowing interaction with a [FHIR](https://fr.wikipedia.org/wiki/Fast_Healthcare_Interoperability_Resources) test API.
-This challenge is composed of 5 levels of difficulty which will be listed below.
+In the project directory, you can run:
 
-## Guidelines
+### `yarn start`
 
-- Challenge is submitted as pull request against this repo ([fork it](https://help.github.com/en/github/getting-started-with-github/fork-a-repo) and [create a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork)).
-- The microsite should be deployed to the PaaS of your choice.
-- You must solve the levels in ascending order.
-- You must commit your code at the end of each level.
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-You can have a look at the higher levels, but do the simplest thing that could work for the level you're currently solving.
-Each level uses the previous one, you can reuse your old code.
-Don't hesitate to write shameless code at first, and then refactor it in the next levels.
+The page will reload if you make edits.<br />
+You will also see any lint errors in the console.
 
-### Bonus
+### `yarn test`
 
-- Decent UX and UI (responsiveness...).
-- Internationalization (English, French...).
+Launches the test runner in the interactive watch mode.<br />
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### Things that are important to us
+### `yarn build`
 
-- Code quality, maintainability and readability.
+Builds the app for production to the `build` folder.<br />
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-## Level 1
+The build is minified and the filenames include the hashes.<br />
+Your app is ready to be deployed!
 
-The purpose of this first level is to retrieve resources from the following API http://hapi.fhir.org/baseDstu3/Practitioner and to display the name of each practitioner.
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-When this is done, you can move on to the next step.
+### `yarn eject`
 
-## Level 2
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-The purpose of this second level is to display detailed information about each practitioner. You have several possibilities, either you have stored the information of each practitioner beforehand (at the first API call), or you can call a new route to retrieve the information of a particular practitioner from his ID, as follows: `http://hapi.fhir.org/baseDstu3/Practitioner/:practitionerId`
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-When this is done, you can move on to the next step.
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-## Level 3
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-The purpose of this third level is to update the practitioner information that you previously retrieved and displayed in the previous step. The API provided at the beginning of this challenge allows the modification of each entity.
+## Learn More
 
-To do this, you will need to pass a specific `Content-Type` to FHIR which is `application/fhir+json`.
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-As well as an object containing all the practitioner's information and also the information you modified (⚠️, if you don't return all the practitioner's information, it will be deleted).
-The object looks like this:
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-```
-{
-  "resourceType": "Practitioner",
-  "id": practitionerId,
-  "meta": {
-    "extension": [...],
-  },
-  "identify." [...],
-  "name." [...],
-  "telecom": [...],
-}
-```
+### Code Splitting
 
-When this is done, you can move on to the next step.
+This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
 
-## Level 4
+### Analyzing the Bundle Size
 
-The goal of this fourth level happens this time at the first level you have developed. As you have seen, when retrieving practitioner information, the API limits us to 20 results, so the idea is to develop a pagination in order to display more practitioners.
+This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
 
-To do this, when retrieving this first call, you must have seen an object in the answer that corresponds to this one:
+### Making a Progressive Web App
 
-```
-"link": [{
-  "relationship": "self."
-  "url": "http://hapi.fhir.org/baseDstu3/Practitioner"
-}, {
-  "relationship": "next."
-  "url": "http://hapi.fhir.org/baseDstu3?_getpages=SEARCH_ID&_getpagesoffset=20&_count=20&_pretty=true&_bundletype=searchset"
-}],
-```
+This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
 
-The goal here is to go after the next relationship.
-Be careful, the `SEARCH_ID` is generated on every call.
+### Advanced Configuration
 
-When this is done, you can move on to the next step.
+This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
 
-## Level 5
+### Deployment
 
-The purpose of this fifth level (the last one, courage 👊) is now to develop a search for practitioners. The research should be done by the given name.
+This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
 
-On the first page you have developed, you will now be able to add a search field to perform the search.
+### `yarn build` fails to minify
 
-The query can be done simply as below:
-
-`http://hapi.fhir.org/baseDstu3/Practitioner?given=YOUR_TERMS&_format=json&_pretty=true`
-
-You can now display the results in the previously retrieved listing!
-
-### Congratulations 🥳
-
-You've completed all the levels! Don't forget to submit your pull request so we can review your challenge and get back to you as soon as possible.
-
-Thank you very much for your participation,
-Team Leah
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify

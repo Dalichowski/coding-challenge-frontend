@@ -3,6 +3,11 @@
     font-size: xx-large;
 }
 
+.tableHead{
+  background-color: rgb(215, 245, 169);
+  text-shadow: 1px 1px white;
+}
+
 .pharmaLogo {
     pointer-events: none;
   }

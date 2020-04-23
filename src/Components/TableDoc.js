@@ -3,6 +3,7 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
+import TableContainer from '@material-ui/core/TableContainer'
 import TableRow from '@material-ui/core/TableRow';
 import ModalDoc from './ModalDoc'
 import Cross from '../assets/Pharmacy_Green_Cross.svg.png'
@@ -19,7 +20,8 @@ class DocList extends Component {
             url: `http://hapi.fhir.org/baseDstu3/Practitioner`,
             doctors: null,
             allDoctors: null,
-            contacts: null
+            contacts: null,
+            address: null
         }; 
         
     }
@@ -37,11 +39,13 @@ class DocList extends Component {
                     doctors: filteredDoc
                 })
                 const filteredCont = this.state.doctors.filter(doctor => doctor.resource.telecom)
+                const filteredAdd = this.state.doctors.filter(doctor => doctor.resource.address )
                 
                 this.setState({
-                    contacts: filteredCont
+                    contacts: filteredCont,
+                    address: filteredAdd
                 })
-                console.log(this.state.contacts)
+                console.log(this.state.allDoctors)
             })
             .catch(error=>{
                 console.log(error)
@@ -56,38 +60,43 @@ class DocList extends Component {
         return(
             <React.Fragment>
                 {this.state.doctors && this.state.contacts ? (
-                <Table aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>ID</TableCell>
-                            <TableCell>Type</TableCell>
-                            <TableCell>First Name</TableCell>
-                            <TableCell>Last Name</TableCell>
-                            <TableCell>Details</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    
-                    <TableBody>
-                        {this.state.doctors.map(doctor => (
-                            <TableRow key={doctor.resource.id} hover={true}>
-                                <TableCell>{doctor.resource.id}</TableCell>
-                                <TableCell>{doctor.resource.name[0].prefix || doctor.resource.name[0].given}</TableCell>
-                                <TableCell>{doctor.resource.name[0].given  || doctor.resource.name[1].given }</TableCell>
-                                <TableCell>{doctor.resource.name[0].family || doctor.resource.name[0]._family.extension[0].valueString}</TableCell>
-                                <TableCell>
-                                    
-                                    <ModalDoc 
-                                        docs={doctor.resource.telecom}
-                                        url={doctor.fullUrl}
-                                        type={doctor.resource.name[0].prefix}
-                                        name={doctor.resource.name[0].given || doctor.resource.name[1].given}
-                                        family={doctor.resource.name[0].family || doctor.resource.name[0]._family.extension[0].valueString}
-                                    />
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>) : (<div className="loader"><h1>Loading Doctors ... <img src={Cross} className='pharmaLogo' alt='pharma-logo' width='60'/></h1></div>)}
+                    <TableContainer>
+                        <Table aria-label="simple table">
+                            <TableHead>
+                                <TableRow className='tableHead'>
+                                    <TableCell>ID</TableCell>
+                                    <TableCell>Type</TableCell>
+                                    <TableCell>First Name</TableCell>
+                                    <TableCell>Last Name</TableCell>
+                                    <TableCell>Details</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            
+                            <TableBody>
+                                {this.state.doctors.map(doctor => (
+                                    <TableRow key={doctor.resource.id} hover={true}>
+                                        <TableCell>{doctor.resource.id}</TableCell>
+                                        <TableCell>{doctor.resource.name[0].prefix || doctor.resource.name[0].given}</TableCell>
+                                        <TableCell>{doctor.resource.name[0].given  || doctor.resource.name[1].given }</TableCell>
+                                        <TableCell>{doctor.resource.name[0].family || doctor.resource.name[0]._family.extension[0].valueString}</TableCell>
+                                        <TableCell>
+                                            
+                                            <ModalDoc 
+                                                docs={doctor.resource.telecom}
+                                                url={doctor.fullUrl}
+                                                type={doctor.resource.name[0].prefix}
+                                                name={doctor.resource.name[0].given || doctor.resource.name[1].given}
+                                                family={doctor.resource.name[0].family || doctor.resource.name[0]._family.extension[0].valueString}
+                                                contacts={this.state.contacts}
+                                                address={doctor.resource.address}
+                                            />
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                ) : (<div className="loader"><h1>Loading Doctors ... <img src={Cross} className='pharmaLogo' alt='pharma-logo' width='60'/></h1></div>)}
             </React.Fragment>            
         );
     }

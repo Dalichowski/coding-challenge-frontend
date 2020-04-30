@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
 import {Button} from '@material-ui/core';
-import {Link} from '@material-ui/core';
 import './ModalDoc1.css';
 
 class ModalDoc extends Component {
@@ -77,8 +76,6 @@ class ModalDoc extends Component {
         <div className='card-body'>
             <h1>{this.props.type} {this.state.name} {this.state.family}</h1>
             <div className='docCard'>
-                <Link href={this.state.docUrl}>GO</Link>
-                <br/>
                 <br/>
                 <h2>Contact :</h2>
                 <strong>Telecom : </strong>

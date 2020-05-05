@@ -21,10 +21,13 @@ class DocList extends Component {
             doctors: null,
             allDoctors: null,
             contacts: null,
-            address: null
+            address: null,
+            perPage: null,
+            currentPage: null
         }; 
         
     }
+    
 
     async componentDidMount(){
         setTimeout(() => {
@@ -33,18 +36,7 @@ class DocList extends Component {
                 this.setState({
                     allDoctors: response.data.entry,
                 })
-                const filteredDoc = this.state.allDoctors.filter(doctor => doctor.resource.name)
-                
-                this.setState({
-                    doctors: filteredDoc
-                })
-                const filteredCont = this.state.doctors.filter(doctor => doctor.resource.telecom)
-                const filteredAdd = this.state.doctors.filter(doctor => doctor.resource.address )
-                
-                this.setState({
-                    contacts: filteredCont,
-                    address: filteredAdd
-                })
+               
                 console.log(this.state.allDoctors)
                 
             })
@@ -63,7 +55,7 @@ class DocList extends Component {
     render(){
         return(
             <React.Fragment>
-                {this.state.doctors && this.state.contacts ? (
+                {this.state.allDoctors ? (
                     <TableContainer>
                         <Table aria-label="simple table">
                             <TableHead>

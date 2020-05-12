@@ -12,27 +12,31 @@ class ModalDoc extends Component {
         docUrl: '',
         name:'',
         family:'',
-        address:'',
+        address:[],
         telecoms:'',
         telecom: [],
         finalTel: []
     }
   }
+
+  //API CALL
   componentDidMount(){
-    const {resource, url, name, family} = this.props;
+    const {resource, url, name, family, address} = this.props;
     const index =  url.split('/')[5];
     const docUrl = `http://hapi.fhir.org/baseDstu3/Practitioner/${index}`;
     this.setState({
         resource: resource,
         docUrl: docUrl,
         name: name,
-        family: family
+        family: family,
+        address: address
     })
-
-    
   }
-  onOpenModal = () => {
 
+  
+  //OPEN MODAL
+  onOpenModal = () => {
+    
     this.setState({ open: true });
     const docRes = this.state.resource;
 
@@ -54,15 +58,16 @@ class ModalDoc extends Component {
     //DISPLAY ADDRESS
     if(docRes.hasOwnProperty('address')){
         this.setState({
-            address: docRes.address[0].text || docRes.address[0].line
+            address: (docRes.address[0].text || docRes.address[0].line) + ', ' + docRes.address[0].city + ', ' + docRes.address[0].postalCode + ', ' + docRes.address[0].country
         })
     }
 
   };
-
+  //CLOSE MODAL
   onCloseModal = () => {
     this.setState({ 
-      open: false, 
+      open: false,
+      telecom: [], 
       finalTel: []
     });
   };
@@ -73,20 +78,21 @@ class ModalDoc extends Component {
       <div>
         <Button variant='contained' onClick={this.onOpenModal}>More ...</Button>
         <Modal open={open} onClose={this.onCloseModal} center>
-        <div className='card-body'>
-            <h1>{this.props.type} {this.state.name} {this.state.family}</h1>
-            <div className='docCard'>
-                <br/>
-                <h2>Contact :</h2>
-                <strong>Telecom : </strong>
-                <br/>
-                {this.state.resource.hasOwnProperty('telecom') === false ? <p>none</p> : this.state.finalTel.map(tel=>
-                  <li>{tel}</li>) }
-                <strong>Address :</strong>
-                <p>{this.state.address ? this.state.address : 'none'}</p>
+          <div className='card-body'>
+              <h1>{this.props.type} {this.state.name} {this.state.family}</h1>
+              <div className='docCard'>
+                  <br/>
+                  <br/>
+                  <h2>Contact :</h2>
+                  <strong>Telecom : </strong>
+                  <br/>
+                  {this.state.resource.hasOwnProperty('telecom') === false ? <p>none</p> : this.state.finalTel.map(tel=>
+                    <li key={tel}>{tel}</li>) }
+                  <strong>Address :</strong>
+                  <p>{this.state.address ? this.state.address : 'none'}</p>
 
-            </div>
-        </div>
+              </div>
+          </div>
         </Modal>
       </div>
     );

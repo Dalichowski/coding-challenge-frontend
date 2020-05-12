@@ -6,8 +6,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableContainer from '@material-ui/core/TableContainer'
 import TableRow from '@material-ui/core/TableRow';
 import ModalDoc from '../ModalDoc/ModalDoc1';
+import ModalEdit from '../ModalEdit/ModalEdit'
 import Cross from '../../assets/Pharmacy_Green_Cross.svg.png'
 import axios from 'axios';
+//import Post from '../ModalEdit/Post';
 
 import './TableDoc1.css';
 
@@ -18,7 +20,7 @@ class DocList extends Component {
 
         this.state = {
             url: `http://hapi.fhir.org/baseDstu3/Practitioner`,
-            doctors: null,
+            doctorsName: null,
             allDoctors: null,
             contacts: null,
             address: null,
@@ -36,9 +38,24 @@ class DocList extends Component {
                 this.setState({
                     allDoctors: response.data.entry,
                 })
-               
-                console.log(this.state.allDoctors)
+                //Filter Name
+                // const filteredDocsName = this.state.allDoctors.filter(docs => docs.resource.name)
                 
+                // this.setState({
+                //     doctorsName: filteredDocsName
+                // })
+                // //Filter Contact
+                // const filteredDocsContact = this.state.allDoctors.filter(docs => docs.resource.telecom)
+                // this.setState({
+                //     contacts: filteredDocsContact
+                // })
+                // //Filter Address
+                // const filteredDocsAddress = this.state.allDoctors.filter(docs => docs.resource.address)
+                // this.setState({
+                //     address: filteredDocsAddress
+                // })
+
+                console.log(this.state.allDoctors)
             })
             .catch(error=>{
 
@@ -65,6 +82,7 @@ class DocList extends Component {
                                     <TableCell>First Name</TableCell>
                                     <TableCell>Last Name</TableCell>
                                     <TableCell>Details</TableCell>
+                                    <TableCell>Edit</TableCell>
                                 </TableRow>
                             </TableHead>
                             
@@ -72,17 +90,30 @@ class DocList extends Component {
                                 {this.state.allDoctors.map(doctor => (
                                     <TableRow key={doctor.resource.id} hover={true}>
                                         <TableCell>{doctor.resource.id}</TableCell>
-                                        <TableCell>{doctor.resource.name[0].prefix || doctor.resource.name[0].given }</TableCell>
-                                        <TableCell>{doctor.resource.name[0].given  || doctor.resource.name[1].given }</TableCell>
-                                        <TableCell>{doctor.resource.name[0].family || doctor.resource.name[0]._family.extension[0].valueString}</TableCell>
+                                        
+                                        <TableCell>{doctor.resource.name === undefined ? 'Not Specified' : doctor.resource.name[0].prefix || doctor.resource.name[0].given }</TableCell>
+                                        <TableCell>{doctor.resource.name === undefined ? 'Not Specified' : doctor.resource.name[0].given }</TableCell>
+                                       {/* <TableCell></TableCell>  */}
+                                        <TableCell>{doctor.resource.name === undefined ? 'Not Specified' : doctor.resource.name[0].family }</TableCell>
                                         <TableCell>
                                             <ModalDoc
                                                 resource={doctor.resource}
                                                 url={doctor.fullUrl}
-                                                type={doctor.resource.name[0].prefix}
-                                                name={doctor.resource.name[0].given || doctor.resource.name[1].given}
-                                                family={doctor.resource.name[0].family || doctor.resource.name[0]._family.extension[0].valueString}
+                                                type={doctor.resource.name === undefined ? 'Not Specified' : doctor.resource.name[0].prefix}
+                                                name={doctor.resource.name === undefined ? 'Not Specified' : doctor.resource.name[0].given}
+                                                family={doctor.resource.name === undefined ? 'Not Specified' : doctor.resource.name[0].family }
 
+                                            />
+                                        </TableCell>
+                                        <TableCell>
+                                            <ModalEdit
+                                                resource={doctor.resource}
+                                                url={doctor.fullUrl}
+                                                type={doctor.resource.name === undefined ? 'Not Specified' : doctor.resource.name[0].prefix}
+                                                name={doctor.resource.name === undefined ? 'Not Specified' : doctor.resource.name[0].given }
+                                                family={doctor.resource.name === undefined ? 'Not Specified' : doctor.resource.name[0].family }
+                                                address={doctor.resource.address}
+                                                telecom={doctor.resource.contacts}
                                             />
                                         </TableCell>
                                     </TableRow>

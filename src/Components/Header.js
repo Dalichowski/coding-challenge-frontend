@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import {AppBar} from '@material-ui/core';
-//import Button from '@material-ui/core/Button';
-//import {Menu} from '@material-ui/icons'
 import Toolbar from '@material-ui/core/Toolbar';
-//import IconButton from '@material-ui/core/IconButton';
+import Logo from '../assets/Pharmacy_Green_Cross.svg.png';
 import Typography from '@material-ui/core/Typography';
 
 import './Header.css';
@@ -15,7 +13,7 @@ class Header extends Component{
             <AppBar position="sticky">
                 <Toolbar className='appBar'>
                     <Typography variant="h3" >
-                    Leah
+                        <img src={Logo} width="50" alt='pharmaLogo'/> LeahCare
                     </Typography>
                 </Toolbar>
             </AppBar>

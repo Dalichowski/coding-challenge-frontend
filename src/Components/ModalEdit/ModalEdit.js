@@ -31,10 +31,8 @@ class ModalEdit extends Component {
         index: index,
         name: name,
         family: family,
-        address: address,
-        //telecom: telecom
+        address: address
     })
-    //console.log(index, docUrl)
   }
 
   
@@ -56,7 +54,7 @@ class ModalEdit extends Component {
       for(let i=0; i<com.length; i++){
         fnl.push(String(com[i][1]))
       }
-      console.log(fnl[0])
+      console.log(fnl)
   }
   };
 
@@ -64,7 +62,10 @@ class ModalEdit extends Component {
   onCloseModal = () => {
     this.setState({ 
       open: false,
+      telecom: [],
+      finalTel: []
     });
+    console.log(this.state.finalTel)
   };
 
   render() {
@@ -77,14 +78,16 @@ class ModalEdit extends Component {
             <h1>{this.props.type} {this.state.name} {this.state.family}</h1>
             <div className='docCard'>
                 <p>{this.state.index}</p>
+                (* means required)
             </div>
         </div>
         <PersonList
             index={this.state.index}
             preName={this.state.name}
             preLast={this.state.family}
-            address={this.state.address}
-            telecom={this.state.finalTel}
+            address={this.state.address === undefined ? 'none' : this.state.address}
+            telecom={this.state.finalTel === undefined ? 'none' : this.state.finalTel}
+            bDate={this.props.bDate}
         />
         </Modal>
       </div>

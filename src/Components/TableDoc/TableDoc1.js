@@ -6,10 +6,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableContainer from '@material-ui/core/TableContainer'
 import TableRow from '@material-ui/core/TableRow';
 import ModalDoc from '../ModalDoc/ModalDoc1';
-import ModalEdit from '../ModalEdit/ModalEdit'
+import ModalEdit from '../ModalEdit/ModalEdit';
+//import Pagination from '../Pagination/Pagination';
 import Cross from '../../assets/Pharmacy_Green_Cross.svg.png'
 import axios from 'axios';
-//import Post from '../ModalEdit/Post';
+//import Link from '@material-ui/core/Link';
 
 import './TableDoc1.css';
 
@@ -24,8 +25,10 @@ class DocList extends Component {
             allDoctors: null,
             contacts: null,
             address: null,
-            perPage: null,
-            currentPage: null
+            pagination: null,
+            paginationSet: null,
+            nextPage: null,
+            previousPage: null
         }; 
         
     }
@@ -37,36 +40,56 @@ class DocList extends Component {
             .then(response => {
                 this.setState({
                     allDoctors: response.data.entry,
+                    pagination: response.data.link[1].url,   
                 })
-                //Filter Name
-                // const filteredDocsName = this.state.allDoctors.filter(docs => docs.resource.name)
-                
-                // this.setState({
-                //     doctorsName: filteredDocsName
-                // })
-                // //Filter Contact
-                // const filteredDocsContact = this.state.allDoctors.filter(docs => docs.resource.telecom)
-                // this.setState({
-                //     contacts: filteredDocsContact
-                // })
-                // //Filter Address
-                // const filteredDocsAddress = this.state.allDoctors.filter(docs => docs.resource.address)
-                // this.setState({
-                //     address: filteredDocsAddress
-                // })
-
-                console.log(this.state.allDoctors)
-            })
+                    console.log(this.state.pagination)
+                axios.get(this.state.pagination)
+                    .then(response => {
+                        console.log(response.data.link)
+                        this.setState({
+                            nextPage: response.data.link[1].url,
+                            previousPage: response.data.link[2].url 
+                        })
+                        
+                    })
+                })
             .catch(error=>{
 
                 console.log(error)
-            })
-            
-            
+            }) 
         }, 2000);
     }; 
 
+    nextPage = () => {
+        axios.get(this.state.nextPage)
+            .then(response => {
+                this.setState({
+                    allDoctors: response.data.entry,
+                    nextPage: response.data.link[1].url,
+                    previousPage: response.data.link[2].url
+                })    
+            })      
+    }
     
+    previousPage = () => {
+        axios.get(this.state.previousPage)
+            .then(response => {
+                this.setState({
+                    allDoctors: response.data.entry,
+                })
+                if(response.data.link[2] === undefined){
+                    this.setState({
+                        previousPage: this.state.url,
+                        nextPage: response.data.link[1].url,
+                    })
+                } else {
+                    this.setState({
+                        nextPage: response.data.link[1].url,
+                        previousPage: response.data.link[2].url
+                    })
+                }
+            })      
+    }
     
 
     render(){
@@ -74,6 +97,7 @@ class DocList extends Component {
             <React.Fragment>
                 {this.state.allDoctors ? (
                     <TableContainer>
+
                         <Table aria-label="simple table">
                             <TableHead>
                                 <TableRow className='tableHead'>
@@ -102,6 +126,8 @@ class DocList extends Component {
                                                 type={doctor.resource.name === undefined ? 'Not Specified' : doctor.resource.name[0].prefix}
                                                 name={doctor.resource.name === undefined ? 'Not Specified' : doctor.resource.name[0].given}
                                                 family={doctor.resource.name === undefined ? 'Not Specified' : doctor.resource.name[0].family }
+                                                birthDate={doctor.resource.birthDate}
+                                                gender={doctor.resource.gender}
 
                                             />
                                         </TableCell>
@@ -114,14 +140,22 @@ class DocList extends Component {
                                                 family={doctor.resource.name === undefined ? 'Not Specified' : doctor.resource.name[0].family }
                                                 address={doctor.resource.address}
                                                 telecom={doctor.resource.contacts}
+                                                bDate={doctor.resource.birthDate}
                                             />
                                         </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
                         </Table>
+                        <button onClick={this.previousPage} className="btn btn-primary">Previous Page</button>
+                        <button onClick={this.nextPage} className="btn btn-primary">Next Page</button>
+                        {/* <Pagination
+                            nextPage={this.state.nextPage}
+                            previousPage={this.state.previousPage}
+                        /> */}
                     </TableContainer>
                 ) : (<div className="loader"><h1>Loading Doctors ... <img src={Cross} className='pharmaLogo' alt='pharma-logo' width='60'/></h1></div>)}
+                
             </React.Fragment>            
         );
     }

@@ -29,7 +29,8 @@ class ModalDoc extends Component {
         docUrl: docUrl,
         name: name,
         family: family,
-        address: address
+        address: address,
+        index:index
     })
   }
 
@@ -80,9 +81,11 @@ class ModalDoc extends Component {
         <Modal open={open} onClose={this.onCloseModal} center>
           <div className='card-body'>
               <h1>{this.props.type} {this.state.name} {this.state.family}</h1>
+              {this.state.index}
               <div className='docCard'>
-                  <br/>
-                  <br/>
+              <br/>
+                  <p><strong>Birth Date :</strong> {this.props.birthDate ? this.props.birthDate : 'Not Specified'}</p>
+                  <p><strong>Gender :</strong> {this.props.gender ? this.props.gender : 'Not Specified'}</p>
                   <h2>Contact :</h2>
                   <strong>Telecom : </strong>
                   <br/>

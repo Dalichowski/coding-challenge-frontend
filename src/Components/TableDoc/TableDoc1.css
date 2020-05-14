@@ -3,6 +3,11 @@
     font-size: xx-large;
 }
 
+#searcher{
+  margin-left: 30%;
+  margin-top: 1%;
+}
+
 .tableHead{
   background-color: rgb(215, 245, 169);
   text-shadow: 1px 1px white;

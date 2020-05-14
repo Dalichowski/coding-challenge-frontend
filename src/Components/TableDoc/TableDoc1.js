@@ -28,12 +28,13 @@ class DocList extends Component {
             pagination: null,
             paginationSet: null,
             nextPage: null,
-            previousPage: null
+            previousPage: null,
+            search:''
         }; 
         
     }
     
-
+    //LOAD API
     async componentDidMount(){
         setTimeout(() => {
             axios.get(this.state.url)
@@ -42,10 +43,10 @@ class DocList extends Component {
                     allDoctors: response.data.entry,
                     pagination: response.data.link[1].url,   
                 })
-                    console.log(this.state.pagination)
+                    console.log(this.state.allDoctors)
                 axios.get(this.state.pagination)
                     .then(response => {
-                        console.log(response.data.link)
+                        //console.log(response.data.link)
                         this.setState({
                             nextPage: response.data.link[1].url,
                             previousPage: response.data.link[2].url 
@@ -59,7 +60,8 @@ class DocList extends Component {
             }) 
         }, 2000);
     }; 
-
+    
+    //Go To Next Page
     nextPage = () => {
         axios.get(this.state.nextPage)
             .then(response => {
@@ -71,6 +73,7 @@ class DocList extends Component {
             })      
     }
     
+    //Go To Previous Page
     previousPage = () => {
         axios.get(this.state.previousPage)
             .then(response => {
@@ -90,14 +93,44 @@ class DocList extends Component {
                 }
             })      
     }
+
+    //SEARCH INPUT
+    handleSearchChange = (event) => {
+        this.setState({
+            search: event.target.value
+        })
+        console.log(this.state.search)
+    }
+
+    //SEARCH FONCTION
+    searchDoctor = () =>{
+        const searchList = `http://hapi.fhir.org/baseDstu3/Practitioner?given=${this.state.search}&_format=json&_pretty=true`;
+        axios.get(searchList)
+            .then(searchResponse =>{
+                this.setState({
+                    allDoctors: searchResponse.data.entry
+                })
+                console.log(searchResponse)
+            })
+    }
     
 
     render(){
         return(
             <React.Fragment>
+                <div className="form-row" id="searcher" >
+                    <div className="form-group col-md-5">
+                        <input type="text" placeholder='Dr. Anybody ...' name='search' value={this.state.search} className="form-control" onChange={this.handleSearchChange}/>
+                    </div>
+                    <div className="form-group col-md-1">
+                        <button onClick={this.searchDoctor} className="btn btn-primary">Search...</button>
+                    </div>   
+                </div>
+                
                 {this.state.allDoctors ? (
+                    
                     <TableContainer>
-
+                        
                         <Table aria-label="simple table">
                             <TableHead>
                                 <TableRow className='tableHead'>

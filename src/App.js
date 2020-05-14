@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Header from './Components/Header';
-//import DocList from './Components/DocList'
-import TableDoc from './Components/TableDoc';
+import TableDoc from './Components/TableDoc/TableDoc1';
+
 import './App.css';
 
 
@@ -10,7 +10,6 @@ class App extends Component{
   return (
     <div className="App">
       <Header/>
-      {/* <DocList/> */}
       <TableDoc/>
     </div>
   );}

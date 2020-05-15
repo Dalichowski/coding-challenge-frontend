@@ -8,11 +8,15 @@ import './Header.css';
 
 class Header extends Component{
     
+    goHome = () => {
+        window.location.reload()
+    }
+
     render(){
         return(
             <AppBar position="sticky">
                 <Toolbar className='appBar'>
-                    <Typography variant="h3" >
+                    <Typography id="Logo" variant="h3" onClick={this.goHome}>
                         <img src={Logo} width="50" alt='pharmaLogo'/> LeahCare
                     </Typography>
                 </Toolbar>

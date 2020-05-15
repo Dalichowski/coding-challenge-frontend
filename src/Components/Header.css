@@ -1,5 +1,9 @@
 .appBar{
     background-color: rgb(85, 217, 181);
     text-shadow: 2px 2px black;
+    
 }
 
+#Logo{
+    cursor: pointer;
+}

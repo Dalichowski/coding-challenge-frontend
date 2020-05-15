@@ -20,7 +20,7 @@ class DocList extends Component {
         super(props);
 
         this.state = {
-            url: `http://hapi.fhir.org/baseDstu3/Practitioner`,
+            url: `https://hapi.fhir.org/baseDstu3/Practitioner`,
             doctorsName: null,
             allDoctors: null,
             contacts: null,
@@ -104,7 +104,7 @@ class DocList extends Component {
 
     //SEARCH FONCTION
     searchDoctor = () =>{
-        const searchList = `http://hapi.fhir.org/baseDstu3/Practitioner?given=${this.state.search}&_format=json&_pretty=true`;
+        const searchList = `https://hapi.fhir.org/baseDstu3/Practitioner?given=${this.state.search}&_format=json&_pretty=true`;
         axios.get(searchList)
             .then(searchResponse =>{
                 this.setState({
@@ -118,7 +118,11 @@ class DocList extends Component {
     render(){
         return(
             <React.Fragment>
-                <div className="form-row" id="searcher" >
+                <div className="form-row" id="searcher" onKeyPress={e => {
+                    if (e.key === 'Enter'){
+                        this.searchDoctor()
+                    }
+                }}>
                     <div className="form-group col-md-5">
                         <input type="text" placeholder='Dr. Anybody ...' name='search' value={this.state.search} className="form-control" onChange={this.handleSearchChange}/>
                     </div>

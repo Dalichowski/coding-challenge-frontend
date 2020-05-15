@@ -24,7 +24,7 @@ class ModalEdit extends Component {
   componentDidMount(){
     const {resource, url, name, family, address } = this.props;
     const index =  url.split('/')[5];
-    const docUrl = `http://hapi.fhir.org/baseDstu3/Practitioner/${index}`;
+    const docUrl = `https://hapi.fhir.org/baseDstu3/Practitioner/${index}`;
     this.setState({
         resource: resource,
         docUrl: docUrl,

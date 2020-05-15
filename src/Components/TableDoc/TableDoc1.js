@@ -20,7 +20,7 @@ class DocList extends Component {
         super(props);
 
         this.state = {
-            url: `http://hapi.fhir.org/baseDstu3/Practitioner`,
+            url: `https://hapi.fhir.org/baseDstu3/Practitioner`,
             doctorsName: null,
             allDoctors: null,
             contacts: null,
@@ -104,7 +104,7 @@ class DocList extends Component {
 
     //SEARCH FONCTION
     searchDoctor = () =>{
-        const searchList = `http://hapi.fhir.org/baseDstu3/Practitioner?given=${this.state.search}&_format=json&_pretty=true`;
+        const searchList = `https://hapi.fhir.org/baseDstu3/Practitioner?given=${this.state.search}&_format=json&_pretty=true`;
         axios.get(searchList)
             .then(searchResponse =>{
                 this.setState({

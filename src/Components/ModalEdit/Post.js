@@ -136,7 +136,7 @@ class PersonList extends Component {
             </div>
             <div className="form-group col-md-6">
               <label htmlFor="inputEmail">E-Mail *</label>
-              <input type="email" className="form-control" name="eMail" id="inputPostalCode" value={this.state.eMail} onChange={this.handleChange} required/>
+              <input type="email" className="form-control" name="eMail" id="eMail" value={this.state.eMail} onChange={this.handleChange} required/>
             </div>
           </div>
           <button type="submit" className="btn btn-primary" onClick={this.handleSubmit}>Send</button>

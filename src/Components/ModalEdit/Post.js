@@ -37,7 +37,7 @@ class PersonList extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     //console.log(this.state.index)
-    fetch(`https://hapi.fhir.org/baseDstu3/Practitioner/${this.state.index}`, {
+    fetch(`http://hapi.fhir.org/baseDstu3/Practitioner/${this.state.index}`, {
       method: 'PUT',
       body: JSON.stringify({
         id: this.state.index,

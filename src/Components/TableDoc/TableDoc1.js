@@ -20,7 +20,7 @@ class DocList extends Component {
         super(props);
 
         this.state = {
-            url: `://hapi.fhir.org/baseDstu3/Practitioner`,
+            url: `/hapi.fhir.org/baseDstu3/Practitioner`,
             doctorsName: null,
             allDoctors: null,
             contacts: null,

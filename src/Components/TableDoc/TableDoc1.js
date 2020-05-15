@@ -40,16 +40,31 @@ class DocList extends Component {
             axios.get(this.state.url)
             .then(response => {
                 this.setState({
-                    allDoctors: response.data.entry,
-                    pagination: response.data.link[1].url,   
+                    allDoctors: response.data.entry   
                 })
-                    console.log(this.state.allDoctors)
+
+                //Setting HTTPS Pagination Link
+                const pag = response.data.link[1].url;
+                const pag2 = pag.split('/')
+                pag2.splice(0, 1, 'https:')
+                this.setState({
+                    pagination: pag2.join('/')
+                })
+                console.log(this.state.pagination)
+
                 axios.get(this.state.pagination)
                     .then(response => {
-                        //console.log(response.data.link)
+                        //Setting HTTPS Next & Previous Page Links
+                        const nxtp = response.data.link[1].url;
+                        const nxtp2 = nxtp.split('/')
+                        nxtp2.splice(0, 1, 'https:')
+
+                        const prvp = response.data.link[2].url;
+                        const prvp2 = prvp.split('/')
+                        prvp2.splice(0, 1, 'https:')
                         this.setState({
-                            nextPage: response.data.link[1].url,
-                            previousPage: response.data.link[2].url 
+                            nextPage: nxtp2.join('/'),
+                            previousPage: prvp2.join('/')
                         })
                         
                     })
@@ -65,10 +80,17 @@ class DocList extends Component {
     nextPage = () => {
         axios.get(this.state.nextPage)
             .then(response => {
+                const nxtp = response.data.link[1].url;
+                const nxtp2 = nxtp.split('/')
+                nxtp2.splice(0, 1, 'https:')
+
+                const prvp = response.data.link[2].url;
+                const prvp2 = prvp.split('/')
+                prvp2.splice(0, 1, 'https:')
                 this.setState({
                     allDoctors: response.data.entry,
-                    nextPage: response.data.link[1].url,
-                    previousPage: response.data.link[2].url
+                    nextPage: nxtp2.join('/'),
+                    previousPage: prvp2.join('/')
                 })    
             })      
     }
@@ -81,14 +103,26 @@ class DocList extends Component {
                     allDoctors: response.data.entry,
                 })
                 if(response.data.link[2] === undefined){
+                    const nxtp = response.data.link[1].url;
+                    const nxtp2 = nxtp.split('/')
+                    nxtp2.splice(0, 1, 'https:')
+                    
                     this.setState({
                         previousPage: this.state.url,
-                        nextPage: response.data.link[1].url,
+                        nextPage: nxtp2.join('/'),
                     })
                 } else {
+                    const nxtp = response.data.link[1].url;
+                    const nxtp2 = nxtp.split('/')
+                    nxtp2.splice(0, 1, 'https:')
+
+                    const prvp = response.data.link[2].url;
+                    const prvp2 = prvp.split('/')
+                    prvp2.splice(0, 1, 'https:')
+                    
                     this.setState({
-                        nextPage: response.data.link[1].url,
-                        previousPage: response.data.link[2].url
+                        nextPage: nxtp2.join('/'),
+                        previousPage: prvp2.join('/')
                     })
                 }
             })      

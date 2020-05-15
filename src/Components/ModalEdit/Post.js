@@ -25,7 +25,7 @@ class PersonList extends Component {
   
   //Handle Input Changes
   handleChange = (event) => {
-    const docUrl = `http://hapi.fhir.org/baseDstu3/Practitioner/${this.state.index}`
+    const docUrl = `https://hapi.fhir.org/baseDstu3/Practitioner/${this.state.index}`
     const value = event.target.value
     this.setState({ 
       [event.target.name]: value,
@@ -37,7 +37,7 @@ class PersonList extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     //console.log(this.state.index)
-    fetch(`http://hapi.fhir.org/baseDstu3/Practitioner/${this.state.index}`, {
+    fetch(`https://hapi.fhir.org/baseDstu3/Practitioner/${this.state.index}`, {
       method: 'PUT',
       body: JSON.stringify({
         id: this.state.index,
@@ -76,7 +76,6 @@ class PersonList extends Component {
     .then(res => res.json())
     .then(json => console.log(json))
     
-    window.location.reload()
   }
 
   render() {

@@ -25,7 +25,7 @@ class PersonList extends Component {
   
   //Handle Input Changes
   handleChange = (event) => {
-    const docUrl = `https://hapi.fhir.org/baseDstu3/Practitioner/${this.state.index}`
+    const docUrl = `http://hapi.fhir.org/baseDstu3/Practitioner/${this.state.index}`
     const value = event.target.value
     this.setState({ 
       [event.target.name]: value,

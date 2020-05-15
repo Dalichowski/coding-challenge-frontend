@@ -66,6 +66,7 @@ class ModalEdit extends Component {
       finalTel: []
     });
     console.log(this.state.finalTel)
+    window.location.reload()
   };
 
   render() {
